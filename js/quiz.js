@@ -47,7 +47,7 @@ $(document).on('click', '#btnname', function () {
     var targetError = self.parent().parent().find('.error');
     if (userName !== '') {
         if (inArray(aName, userName)) {
-            targetError.append('You Already Attempt Quiz');
+            targetError.html('You Already Attempt Quiz');
             targetError.removeClass('hide');
         } else {
             $('#instructions').modal('show');
@@ -57,15 +57,10 @@ $(document).on('click', '#btnname', function () {
             }
         }
     } else {
-        targetError.append('Enter Your Name Before Start Quiz');
+        targetError.html('Enter Your Name Before Start Quiz');
         targetError.removeClass('hide');
     }
 });
-// $(document).on('focusIn', '#name', function () {
-//     if (!$('.eroor').hasClass('hide')) {
-//         $('.eroor').addClass('hide')
-//     }
-// })
 $(document).on('click', '#startQuiz', function () {
     if (!$('#submit').hasClass('hide')) {
         $('#submit').addClass("hide");
@@ -73,7 +68,10 @@ $(document).on('click', '#startQuiz', function () {
         $('#next').removeClass("hide");
     }
     $('#next').attr('disabled', true);
-    $('#quiz').modal('show');
+    $('#quiz').modal({
+        backdrop: 'static',
+        keyboard: false
+    })
     timmer()
     var quiz = quizques(1);
     $('#quiz-body').html(quiz);
@@ -162,15 +160,15 @@ function Quizresult() {
     var percentage = (obtainMraks * 100) / totalMarks;
     $('.result').html('you got ' + percentage + '% marks')
     if (percentage >= 80) {
-        $('.remarks').html('Excellent! keep it up marks')
+        $('.remarks').html('Excellent! keep it up')
     }
-    if (percentage >= 70) {
+    if (percentage >= 70 || percentage < 80) {
         $('.remarks').html('Good! try to improve it')
     }
-    if (percentage >= 60) {
+    if (percentage >= 60 || percentage < 70) {
         $('.remarks').html('Average! need to work hard')
     }
-    if (percentage >= 50) {
+    if (percentage >= 50 || percentage < 60) {
         $('.remarks').html('poor! focus on studies')
     }
     if (percentage < 50) {
